@@ -20,11 +20,21 @@ namespace NZwalk.API.Controllers
         [HttpGet]
         public IActionResult GetAllRegions()
         {
-
-
             var regions = dbContext.Regions.ToList();
 
-            return Ok(regions);
+            var RegionDtos = new List<Model.DTO.RegionDto>();
+            foreach(var RegionDomain in regions)
+            {
+                RegionDtos.Add(new Model.DTO.RegionDto
+                {
+                    Id = RegionDomain.Id,
+                    Name = RegionDomain.Name,
+                    Code = RegionDomain.Code,
+                    RegionImageUrl = RegionDomain.RegionImageUrl
+                });
+            }
+
+            return Ok(RegionDtos);
         }
 
         //get fetch region by ID
@@ -37,7 +47,16 @@ namespace NZwalk.API.Controllers
             {
                 return NotFound();
             }
-            return Ok(region);
+
+            var RegionDto = new Model.DTO.RegionDto
+            {
+                Id = region.Id,
+                Name = region.Name,
+                Code = region.Code,
+                RegionImageUrl = region.RegionImageUrl
+            };
+
+            return Ok(RegionDto);
         }
 
     }
