@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output
+bin/
+obj/
+publish/
+
+# Rider/IDE
+.idea/
+
+# Dotnet
+*.db
+appsettings.Development.json
+secrets.json
+
+# OS files
+Thumbs.db
+.DS_Store
