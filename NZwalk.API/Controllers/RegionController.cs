@@ -104,5 +104,20 @@ namespace NZwalk.API.Controllers
             };
             return Ok(regionDto);
         }
+
+        //delete region
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public IActionResult DeleteRegion([FromRoute] Guid id)
+        {
+            var regionDomain = dbContext.Regions.FirstOrDefault(r => r.Id == id);
+            if (regionDomain == null)
+            {
+                return NotFound();
+            }
+            dbContext.Regions.Remove(regionDomain);
+            dbContext.SaveChanges();
+            return NoContent();
+        }
     }
 }
