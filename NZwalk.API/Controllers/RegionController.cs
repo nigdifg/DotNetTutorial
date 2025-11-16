@@ -23,7 +23,7 @@ namespace NZwalk.API.Controllers
             var regions = dbContext.Regions.ToList();
 
             var RegionDtos = new List<Model.DTO.RegionDto>();
-            foreach(var RegionDomain in regions)
+            foreach (var RegionDomain in regions)
             {
                 RegionDtos.Add(new Model.DTO.RegionDto
                 {
@@ -58,6 +58,27 @@ namespace NZwalk.API.Controllers
 
             return Ok(RegionDto);
         }
+        //create region
+        [HttpPost]
+        public IActionResult AddRegion(Model.DTO.AddRegionRequestDTO addRegionRequestDTO)
+        {
+            var regionDomain = new Model.Domain.Region
+            {
+                Name = addRegionRequestDTO.Name,
+                Code = addRegionRequestDTO.Code,
+                RegionImageUrl = addRegionRequestDTO.RegionImageUrl
+            };
+            dbContext.Regions.Add(regionDomain);
+            dbContext.SaveChanges();
+            var regionDto = new Model.DTO.RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+            return CreatedAtAction(nameof(GetRegionById), new { id = regionDto.Id }, regionDto);
 
+        }
     }
 }
