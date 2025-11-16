@@ -80,5 +80,29 @@ namespace NZwalk.API.Controllers
             return CreatedAtAction(nameof(GetRegionById), new { id = regionDto.Id }, regionDto);
 
         }
+
+        //to update region
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult UpdateRegion([FromRoute] Guid id, Model.DTO.AddRegionRequestDTO updateRegionRequestDTO)
+        {
+            var regionDomain = dbContext.Regions.FirstOrDefault(r => r.Id == id);
+            if (regionDomain == null)
+            {
+                return NotFound();
+            }
+            regionDomain.Name = updateRegionRequestDTO.Name;
+            regionDomain.Code = updateRegionRequestDTO.Code;
+            regionDomain.RegionImageUrl = updateRegionRequestDTO.RegionImageUrl;
+            dbContext.SaveChanges();
+            var regionDto = new Model.DTO.RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+            return Ok(regionDto);
+        }
     }
 }
